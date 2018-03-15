@@ -18,7 +18,7 @@
 	</parent>
 
 	<properties>
-		<slf4jVersion>1.7.25</slf4jVersion>
+		<messenger4jVersion>1.0.0-M3</messenger4jVersion>
 	</properties>
 
 	<dependencies>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.github.messenger4j</groupId>
 			<artifactId>messenger4j</artifactId>
-			<version>1.0.0-M3</version>
+			<version>${messenger4jVersion}</version>
 		</dependency>
 	</dependencies>
 

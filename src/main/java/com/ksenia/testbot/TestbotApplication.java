@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-//@PropertySource(value = "classpath:application.yml")
 
 public class TestbotApplication {
 

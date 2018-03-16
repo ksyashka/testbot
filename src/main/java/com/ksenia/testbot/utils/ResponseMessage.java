@@ -24,9 +24,6 @@ public class ResponseMessage {
     }
 
     public static MessagePayload listButtons(String recipientId, String[] names) {
-        final PostbackButton buttonA = PostbackButton.create("Registration", "Registration");
-        final PostbackButton buttonB = PostbackButton.create("Currency", "Currency");
-        final PostbackButton buttonC = PostbackButton.create("Contact", "Contact");
 
         final List<Button> buttons = new LinkedList<>();
         for (String s : names) {

@@ -19,6 +19,7 @@
 
 	<properties>
 		<messenger4jVersion>1.0.0-M3</messenger4jVersion>
+		<jacksonVersion>1.9.13</jacksonVersion>>
 	</properties>
 
 	<dependencies>
@@ -40,6 +41,13 @@
 			<artifactId>messenger4j</artifactId>
 			<version>${messenger4jVersion}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jacksonVersion}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

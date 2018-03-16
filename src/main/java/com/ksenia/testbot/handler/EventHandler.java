@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Optional;
 
 import static java.util.Optional.of;
@@ -21,14 +22,14 @@ import static java.util.Optional.of;
 public class EventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
-    private int registrationMarker;
-    private UserProfile userProfile;
+ //   private int registrationMarker;
+    private HashMap<String, UserProfile> userProfiles;
 
     public EventHandler() {
     }
 
-    public EventHandler(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public EventHandler(HashMap<String, UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
     }
 
     public void handle(Event event, Messenger messenger) throws MessengerApiException, MessengerIOException {
@@ -38,6 +39,9 @@ public class EventHandler {
         final String senderId = event.senderId();
         final Instant timestamp = event.timestamp();
 
+        if(!userProfiles.containsKey(senderId))
+         userProfiles.put(senderId,new UserProfile(senderId));
+
         if (event.isPostbackEvent()) {
             PostbackEvent postbackEvent = event.asPostbackEvent();
             final Optional<String> payload = postbackEvent.payload();
@@ -46,10 +50,10 @@ public class EventHandler {
                     senderId, timestamp, payload);
 
 
-            if (of("Registration").equals(payload) && registrationMarker == 0) {
+            if (of("Registration").equals(payload)) {
                 outService.sendText(senderId, "Please answer the following questions");
                 outService.sendText(senderId, "your name?");
-                registrationMarker = 1;
+                userProfiles.get(senderId).setRegistrationMarker(1);
             }
 
             if (of("Start").equals(payload)) {
@@ -92,61 +96,37 @@ public class EventHandler {
             LOGGER.debug("Received text message from '{}' at '{}' with content: {} (mid: {})",
                     senderId, timestamp, text, messageId);
 
-            if (registrationMarker == 1) {
-                userProfile.setName(text);
-                outService.sendText(senderId, "your surname?");
-                registrationMarker = 2;
-            } else if (registrationMarker == 2) {
-                userProfile.setSurname(text);
-                outService.sendText(senderId, "your surname?");
-                registrationMarker = 3;
-            } else if (registrationMarker == 3) {
-                userProfile.setAge(text);
-                outService.sendText(senderId, "your surname?");
-                registrationMarker = 4;
-            } else if (registrationMarker == 4) {
-                userProfile.setSex(text);
-                outService.sendText(senderId, "your surname?");
-                registrationMarker = 5;
-            } else if (registrationMarker == 5) {
-                userProfile.setLanguage(text);
-                outService.sendText(senderId, "your surname?");
-                registrationMarker = 0;
-                outService.sendText(senderId, userProfile.toString());
-                outService.sendStartMenu(senderId);
-            } else outService.sendStartMenu(senderId);
 
-
-//            switch (registrationMarker) {
-//                case 1:
-//                    userProfile.setName(text);
-//                    outService.sendText(senderId, "your surname?");
-//                    registrationMarker = 2;
-//                    break;
-//                case 2:
-//                    userProfile.setSurname(text);
-//                    outService.sendText(senderId, "your age?");
-//                    registrationMarker = 3;
-//                    break;
-//                case 3:
-//                    userProfile.setAge(text);
-//                    outService.sendText(senderId, "your sex?");
-//                    registrationMarker = 4;
-//                    break;
-//                case 4:
-//                    userProfile.setSex(text);
-//                    outService.sendText(senderId, "your language?");
-//                    registrationMarker = 5;
-//                    break;
-//                case 5:
-//                    userProfile.setLanguage(text);
-//                    registrationMarker = 0;
-//                    outService.sendText(senderId, userProfile.toString());
-//                    outService.sendStartMenu(senderId);
-//                    break;
-//                default:
-//                    outService.sendStartMenu(senderId);
-//            }
+            switch (userProfiles.get(senderId).getRegistrationMarker()) {
+                case 1:
+                    userProfiles.get(senderId).setName(text);
+                    outService.sendText(senderId, "your surname?");
+                    userProfiles.get(senderId).setRegistrationMarker(2);
+                    break;
+                case 2:
+                    userProfiles.get(senderId).setSurname(text);
+                    outService.sendText(senderId, "your age?");
+                    userProfiles.get(senderId).setRegistrationMarker(3);
+                    break;
+                case 3:
+                    userProfiles.get(senderId).setAge(text);
+                    outService.sendText(senderId, "your sex?");
+                    userProfiles.get(senderId).setRegistrationMarker(4);
+                    break;
+                case 4:
+                    userProfiles.get(senderId).setSex(text);
+                    outService.sendText(senderId, "your language?");
+                    userProfiles.get(senderId).setRegistrationMarker(5);
+                    break;
+                case 5:
+                    userProfiles.get(senderId).setLanguage(text);
+                    userProfiles.get(senderId).setRegistrationMarker(0);
+                    outService.sendText(senderId, userProfiles.get(senderId).toString());
+                    outService.sendStartMenu(senderId);
+                    break;
+                default:
+                    outService.sendStartMenu(senderId);
+            }
 
         }
     }

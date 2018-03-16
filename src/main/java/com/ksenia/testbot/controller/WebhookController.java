@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+
 import static java.util.Optional.of;
 
 
@@ -32,7 +34,7 @@ public class WebhookController {
                       @Value("${messenger4j.appSecret}") final String appSecret,
                       @Value("${messenger4j.verifyToken}") final String verifyToken) {
         messenger = Messenger.create(pageAccessToken, appSecret, verifyToken);
-        eventHandler = new EventHandler(new UserProfile());
+        eventHandler = new EventHandler(new HashMap<String,UserProfile>());
     }
 
 
@@ -55,21 +57,19 @@ public class WebhookController {
 
 
     @RequestMapping(value = "/webhook", method = RequestMethod.POST)
-    public ResponseEntity<String> verifyWebhook(@RequestBody String payload, @RequestHeader("X-Hub-Signature") final String signature) {
+    @ResponseStatus(HttpStatus.OK)
+    public void verifyWebhook(@RequestBody String payload, @RequestHeader("X-Hub-Signature") final String signature) {
 
         try {
             messenger.onReceiveEvents(payload, of(signature), event -> {
                 try {
                     eventHandler.handle(event, messenger);
                 } catch (MessengerApiException | MessengerIOException e) {
-                    e.printStackTrace();
+                    LOGGER.warn("Processing of callback payload failed: {}", e.getMessage());
                 }
             });
-        } catch (MessengerVerificationException e) {
+        } catch (Exception e) {
             LOGGER.warn("Processing of callback payload failed: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

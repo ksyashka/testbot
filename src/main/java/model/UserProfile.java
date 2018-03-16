@@ -2,14 +2,36 @@ package model;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class UserProfile {
+    private String id;
     private String name;
     private String surname;
     private String age;
     private String sex;
     private String language;
+    private int registrationMarker;
+
+    public int getRegistrationMarker() {
+        return registrationMarker;
+    }
+
+    public void setRegistrationMarker(int registrationMarker) {
+        this.registrationMarker = registrationMarker;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public UserProfile() {
+
     }
 
     public UserProfile(String name, String surname, String age, String sex, String language) {
@@ -18,6 +40,10 @@ public class UserProfile {
         this.age = age;
         this.sex = sex;
         this.language = language;
+    }
+
+    public UserProfile(String id){
+        this.id = id;
     }
 
     public String getName() {
@@ -62,6 +88,20 @@ public class UserProfile {
 
     @Override
     public String toString() {
-        return String.format("Name: %s\nSurname: %s\nAge: %s\nSex: %s\n Language: %s\n", name, surname, age, sex, language);
+        return String.format("Name: %s\nSurname: %s\nAge: %s\nSex: %s\nLanguage: %s\n", name, surname, age, sex, language);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserProfile that = (UserProfile) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

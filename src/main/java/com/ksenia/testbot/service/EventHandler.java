@@ -1,6 +1,5 @@
 package com.ksenia.testbot.service;
 
-import com.github.messenger4j.Messenger;
 import com.github.messenger4j.exception.MessengerApiException;
 import com.github.messenger4j.exception.MessengerIOException;
 import com.github.messenger4j.webhook.Event;
@@ -10,6 +9,7 @@ import com.ksenia.testbot.constants.PayloadType;
 import com.ksenia.testbot.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -22,16 +22,13 @@ import static com.ksenia.testbot.constants.Constants.*;
 public class EventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
-    private HashMap<String, UserProfile> userProfiles;
+    private HashMap<String, UserProfile> userProfiles = new HashMap<>();
+    @Autowired
+    private MessengerProducer messenger;
+    @Autowired
     private OutService outService;
 
-    public EventHandler() {
-        this.userProfiles = new HashMap<>();
-    }
-
-    public void handle(Event event, Messenger messenger) throws MessengerApiException, MessengerIOException {
-
-        outService = new OutService(messenger);
+    public void handle(Event event) throws MessengerApiException, MessengerIOException {
 
         final String senderId = event.senderId();
         final Instant timestamp = event.timestamp();

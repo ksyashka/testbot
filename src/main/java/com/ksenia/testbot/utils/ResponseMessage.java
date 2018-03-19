@@ -58,7 +58,7 @@ public class ResponseMessage {
                 empty(), empty(), empty(), empty());
     }
 
-    public static MessengerSettings greetingtext(){
+    public static MessengerSettings greetingText(){
         final Greeting greeting = Greeting.create(Constans.GREETING_TEXT, LocalizedGreeting.create(SupportedLocale.en_US,
                 ""));
         return MessengerSettings.create(empty(), of(greeting), empty(),

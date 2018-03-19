@@ -24,6 +24,7 @@ public class EventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
     private HashMap<String, UserProfile> userProfiles;
+    private OutService outService;
 
     public EventHandler() {
         this.userProfiles = new HashMap<String, UserProfile>();
@@ -31,7 +32,7 @@ public class EventHandler {
 
     public void handle(Event event, Messenger messenger) throws MessengerApiException, MessengerIOException {
 
-        OutService outService = new OutService(messenger);
+        outService = new OutService(messenger);
 
         final String senderId = event.senderId();
         final Instant timestamp = event.timestamp();

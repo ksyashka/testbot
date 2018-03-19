@@ -1,0 +1,12 @@
+messenger4j:
+  appSecret: 3cbbf1cc1e6b11134267c4fec59c94f1
+  verifyToken: youshallnotmergewithoutcodereview
+  pageAccessToken: EAAFI9JEj848BAB3k1Iz4WrZCdtMZCLYqA28vdwcZBtT1qft2ExcHpphSNDF0tGNoZCZAW7HpIBLDq5vxlxTaZBWjGWsHT6CTb90eapae6LK7F1tqHiot8BifOIGZCilDVsOlCZAyaXZBKXdZBVhccZBBZAc1Ud70TXEg2CbqUynYPP4qlZCKxSA8ZACtpm
+
+logging:
+  level:
+    org.springframework.web : INFO
+    com.ksenia: DEBUG
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: logs/logs.log

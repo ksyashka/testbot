@@ -77,7 +77,7 @@ public class WebhookController {
     @PostConstruct
     public void setUp(){
         try {
-            messenger.updateSettings(ResponseMessage.greetingtext());
+            messenger.updateSettings(ResponseMessage.greetingText());
             messenger.updateSettings(ResponseMessage.startedButton());
             messenger.updateSettings(ResponseMessage.persistentMenu());
         } catch (MessengerApiException | MessengerIOException e) {

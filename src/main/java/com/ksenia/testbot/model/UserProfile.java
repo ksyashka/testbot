@@ -1,4 +1,4 @@
-package model;
+package com.ksenia.testbot.model;
 
 import org.springframework.stereotype.Component;
 

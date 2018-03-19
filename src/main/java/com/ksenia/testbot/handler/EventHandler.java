@@ -7,7 +7,7 @@ import com.github.messenger4j.webhook.Event;
 import com.github.messenger4j.webhook.event.PostbackEvent;
 import com.github.messenger4j.webhook.event.TextMessageEvent;
 import com.ksenia.testbot.service.OutService;
-import model.UserProfile;
+import com.ksenia.testbot.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,6 @@ import static java.util.Optional.of;
 public class EventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
- //   private int registrationMarker;
     private HashMap<String, UserProfile> userProfiles;
 
     public EventHandler() {
@@ -43,6 +42,7 @@ public class EventHandler {
          userProfiles.put(senderId,new UserProfile(senderId));
 
         if (event.isPostbackEvent()) {
+            userProfiles.get(senderId).setRegistrationMarker(0);
             PostbackEvent postbackEvent = event.asPostbackEvent();
             final Optional<String> payload = postbackEvent.payload();
 

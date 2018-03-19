@@ -1,4 +1,4 @@
-package model;
+package com.ksenia.testbot.model;
 
 public class Currency {
     private int r030;

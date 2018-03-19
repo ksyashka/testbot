@@ -1,6 +1,6 @@
 package com.ksenia.testbot.utils;
 
-import model.Currency;
+import com.ksenia.testbot.model.Currency;
 import com.ksenia.testbot.exceptions.GetCurrentCurrencyException;
 import org.codehaus.jackson.map.ObjectMapper;
 import java.net.URL;

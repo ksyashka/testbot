@@ -7,7 +7,6 @@ import com.github.messenger4j.exception.MessengerIOException;
 import com.github.messenger4j.exception.MessengerVerificationException;
 
 import com.ksenia.testbot.handler.EventHandler;
-import model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class WebhookController {
                       @Value("${messenger4j.appSecret}") final String appSecret,
                       @Value("${messenger4j.verifyToken}") final String verifyToken) {
         messenger = Messenger.create(pageAccessToken, appSecret, verifyToken);
-        eventHandler = new EventHandler(new HashMap<String,UserProfile>());
+        eventHandler = new EventHandler(new HashMap<>());
     }
 
 

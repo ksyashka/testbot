@@ -49,6 +49,4 @@ public class WebhookControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-
-
 }

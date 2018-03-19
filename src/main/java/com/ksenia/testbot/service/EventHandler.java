@@ -17,6 +17,9 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static com.ksenia.testbot.constants.PayloadType.CONTACT;
+import static com.ksenia.testbot.constants.PayloadType.REGISTRATION;
+import static com.ksenia.testbot.constants.PayloadType.START;
 import static java.util.Optional.of;
 
 @Component
@@ -27,7 +30,7 @@ public class EventHandler {
     private OutService outService;
 
     public EventHandler() {
-        this.userProfiles = new HashMap<String, UserProfile>();
+        this.userProfiles = new HashMap<>();
     }
 
     public void handle(Event event, Messenger messenger) throws MessengerApiException, MessengerIOException {
@@ -37,53 +40,53 @@ public class EventHandler {
         final String senderId = event.senderId();
         final Instant timestamp = event.timestamp();
 
-        if(!userProfiles.containsKey(senderId))
-         userProfiles.put(senderId,new UserProfile(senderId));
+        if (!userProfiles.containsKey(senderId))
+            userProfiles.put(senderId, new UserProfile(senderId));
 
         if (event.isPostbackEvent()) {
             userProfiles.get(senderId).setRegistrationMarker(0);
             PostbackEvent postbackEvent = event.asPostbackEvent();
             final Optional<String> payload = postbackEvent.payload();
+            PayloadType payloadValue = PayloadType.valueOf(payload.get());
 
             LOGGER.debug("Received payload from '{}' at '{}' with payload {}",
                     senderId, timestamp, payload);
 
+            switch (payloadValue) {
+                case REGISTRATION:
+                    outService.sendText(senderId, "Please answer the following questions");
+                    outService.sendText(senderId, "your name?");
+                    userProfiles.get(senderId).setRegistrationMarker(1);
+                    break;
+                case START:
+                    outService.sendStartMenu(senderId);
+                    break;
+                case CONTACT:
+                    outService.sendContact(senderId);
+                    outService.sendStartMenu(senderId);
+                    break;
+                case CURRENCY:
+                    outService.sendCurrencyMenu(senderId);
+                    break;
+                case EUR:
+                    outService.sendCurrency(senderId, new String[]{"EUR"});
+                    outService.sendStartMenu(senderId);
+                    break;
+                case USD:
+                    outService.sendCurrency(senderId, new String[]{"USD"});
+                    outService.sendStartMenu(senderId);
+                    break;
+                case ALL:
+                    String[] currency = {"EUR", "USD"};
+                    outService.sendCurrency(senderId, new String[]{"EUR", "USD"});
+                    outService.sendStartMenu(senderId);
+                    break;
+                default:
+                    outService.sendStartMenu(senderId);
 
-            if (of(PayloadType.REGISTRATION.toString()).equals(payload)) {
-                outService.sendText(senderId, "Please answer the following questions");
-                outService.sendText(senderId, "your name?");
-                userProfiles.get(senderId).setRegistrationMarker(1);
-            }
-
-            if (of(PayloadType.START.toString()).equals(payload)) {
-                outService.sendStartMenu(senderId);
-            }
-            if (of(PayloadType.CONTACT.toString()).equals(payload)) {
-                outService.sendContact(senderId);
-                outService.sendStartMenu(senderId);
-            }
-
-            if (of(PayloadType.CURRENCY.toString()).equals(payload)) {
-                outService.sendCurrencyMenu(senderId);
-            }
-
-            if (of(PayloadType.EUR.toString()).equals(payload)) {
-                String[] currency = {"EUR"};
-                outService.sendCurrency(senderId, currency);
-                outService.sendStartMenu(senderId);
 
             }
-            if (of(PayloadType.USD.toString()).equals(payload)) {
-                String[] currency = {"USD"};
-                outService.sendCurrency(senderId, currency);
-                outService.sendStartMenu(senderId);
-            }
 
-            if (of(PayloadType.ALL.toString()).equals(payload)) {
-                String[] currency = {"EUR", "USD"};
-                outService.sendCurrency(senderId, currency);
-                outService.sendStartMenu(senderId);
-            }
         }
 
         if (event.isTextMessageEvent()) {

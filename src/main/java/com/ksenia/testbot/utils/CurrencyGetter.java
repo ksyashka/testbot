@@ -3,12 +3,15 @@ package com.ksenia.testbot.utils;
 import com.ksenia.testbot.model.Currency;
 import com.ksenia.testbot.exceptions.GetCurrentCurrencyException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.net.URL;
 
 
 public class CurrencyGetter {
 
     public static Currency getCurrentCurrency(String type) throws GetCurrentCurrencyException {
+
         try {
             URL url = new URL("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=" + type + "&json");
             ObjectMapper mapper = new ObjectMapper();

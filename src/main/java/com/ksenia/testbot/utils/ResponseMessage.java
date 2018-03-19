@@ -43,13 +43,13 @@ public class ResponseMessage {
     }
 
     public static MessengerSettings startedButton(){
-        return MessengerSettings.create(of(StartButton.create("START")),
+        return MessengerSettings.create(of(StartButton.create(PayloadType.START.toString())),
                 empty(), empty(), empty(), empty(), empty(), empty());
     }
 
     public static MessengerSettings persistentMenu(){
-        final PostbackCallToAction callToActionA = PostbackCallToAction.create("Start from beginning", "START");
-        final PostbackCallToAction callToActionB = PostbackCallToAction.create("Contact information", "CONTACT");
+        final PostbackCallToAction callToActionA = PostbackCallToAction.create("Start from beginning", PayloadType.START.toString());
+        final PostbackCallToAction callToActionB = PostbackCallToAction.create("Contact information", PayloadType.CONTACT.toString());
 
         final PersistentMenu persistentMenu = PersistentMenu.create(false, of(Arrays.asList(callToActionA, callToActionB)),
                 LocalizedPersistentMenu.create(SupportedLocale.zh_CN, false, empty()));

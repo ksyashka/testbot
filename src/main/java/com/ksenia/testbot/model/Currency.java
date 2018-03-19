@@ -1,6 +1,11 @@
 package com.ksenia.testbot.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class Currency {
+    @JsonProperty(value = "r030")
     private int r030;
     private String txt;
     private double rate;
@@ -18,10 +23,11 @@ public class Currency {
         this.exchangedate = exchangedate;
     }
 
+    @JsonGetter("r030")
     public int getR030() {
         return r030;
     }
-
+    @JsonSetter("r030")
     public void setR030(int r030) {
         this.r030 = r030;
     }

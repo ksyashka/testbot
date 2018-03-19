@@ -70,8 +70,8 @@ public class OutService {
         messenger.send(ResponseMessage.textMessage(recipientId, message.toString()));
     }
 
-    public void sendText(String recepientId, String text) throws MessengerApiException, MessengerIOException {
-        messenger.send(ResponseMessage.textMessage(recepientId, text));
+    public void sendText(String recipientId, String text) throws MessengerApiException, MessengerIOException {
+        messenger.send(ResponseMessage.textMessage(recipientId, text));
 
     }
 }

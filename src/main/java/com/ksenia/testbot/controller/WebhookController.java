@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,8 +61,6 @@ public class WebhookController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void verifyWebhook(@RequestBody String payload, @RequestHeader("X-Hub-Signature") final String signature) {
-
-        System.out.println(payload);
         try {
             messenger.onReceiveEvents(payload, of(signature), event -> {
                 try {

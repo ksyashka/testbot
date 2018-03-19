@@ -61,6 +61,7 @@ public class WebhookController {
     @ResponseStatus(HttpStatus.OK)
     public void verifyWebhook(@RequestBody String payload, @RequestHeader("X-Hub-Signature") final String signature) {
 
+        System.out.println(payload);
         try {
             messenger.onReceiveEvents(payload, of(signature), event -> {
                 try {

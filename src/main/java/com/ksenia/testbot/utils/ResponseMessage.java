@@ -15,7 +15,7 @@ import com.github.messenger4j.send.message.TextMessage;
 import com.github.messenger4j.send.message.template.ButtonTemplate;
 import com.github.messenger4j.send.message.template.button.Button;
 import com.github.messenger4j.send.message.template.button.PostbackButton;
-import com.ksenia.testbot.constants.Constans;
+import com.ksenia.testbot.constants.Constants;
 import com.ksenia.testbot.constants.PayloadType;
 
 import java.util.*;
@@ -48,8 +48,8 @@ public class ResponseMessage {
     }
 
     public static MessengerSettings persistentMenu(){
-        final PostbackCallToAction callToActionA = PostbackCallToAction.create("Start from beginning", PayloadType.START.toString());
-        final PostbackCallToAction callToActionB = PostbackCallToAction.create("Contact information", PayloadType.CONTACT.toString());
+        final PostbackCallToAction callToActionA = PostbackCallToAction.create(Constants.MENU_START, PayloadType.START.toString());
+        final PostbackCallToAction callToActionB = PostbackCallToAction.create(Constants.MENU_CONTACT, PayloadType.CONTACT.toString());
 
         final PersistentMenu persistentMenu = PersistentMenu.create(false, of(Arrays.asList(callToActionA, callToActionB)),
                 LocalizedPersistentMenu.create(SupportedLocale.zh_CN, false, empty()));
@@ -59,7 +59,7 @@ public class ResponseMessage {
     }
 
     public static MessengerSettings greetingText(){
-        final Greeting greeting = Greeting.create(Constans.GREETING_TEXT, LocalizedGreeting.create(SupportedLocale.en_US,
+        final Greeting greeting = Greeting.create(Constants.GREETING_TEXT, LocalizedGreeting.create(SupportedLocale.en_US,
                 ""));
         return MessengerSettings.create(empty(), of(greeting), empty(),
                 empty(), empty(), empty(), empty());

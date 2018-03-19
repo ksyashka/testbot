@@ -10,17 +10,13 @@ import com.ksenia.testbot.constants.PayloadType;
 import com.ksenia.testbot.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static com.ksenia.testbot.constants.PayloadType.CONTACT;
-import static com.ksenia.testbot.constants.PayloadType.REGISTRATION;
-import static com.ksenia.testbot.constants.PayloadType.START;
-import static java.util.Optional.of;
+import static com.ksenia.testbot.constants.Constants.*;
 
 @Component
 public class EventHandler {
@@ -54,8 +50,7 @@ public class EventHandler {
 
             switch (payloadValue) {
                 case REGISTRATION:
-                    outService.sendText(senderId, "Please answer the following questions");
-                    outService.sendText(senderId, "your name?");
+                    outService.sendText(senderId, REGISTRATION_NAME);
                     userProfiles.get(senderId).setRegistrationMarker(1);
                     break;
                 case START:
@@ -102,22 +97,22 @@ public class EventHandler {
             switch (userProfiles.get(senderId).getRegistrationMarker()) {
                 case 1:
                     userProfiles.get(senderId).setName(text);
-                    outService.sendText(senderId, "your surname?");
+                    outService.sendText(senderId, REGISTRATION_SURNAME);
                     userProfiles.get(senderId).setRegistrationMarker(2);
                     break;
                 case 2:
                     userProfiles.get(senderId).setSurname(text);
-                    outService.sendText(senderId, "your age?");
+                    outService.sendText(senderId, REGISTRATION_AGE);
                     userProfiles.get(senderId).setRegistrationMarker(3);
                     break;
                 case 3:
                     userProfiles.get(senderId).setAge(text);
-                    outService.sendText(senderId, "your sex?");
+                    outService.sendText(senderId, REGISTRATION_SEX);
                     userProfiles.get(senderId).setRegistrationMarker(4);
                     break;
                 case 4:
                     userProfiles.get(senderId).setSex(text);
-                    outService.sendText(senderId, "your language?");
+                    outService.sendText(senderId, REGISTRATION_LANGUAGE);
                     userProfiles.get(senderId).setRegistrationMarker(5);
                     break;
                 case 5:

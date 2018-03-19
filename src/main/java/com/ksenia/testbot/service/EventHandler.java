@@ -64,7 +64,7 @@ public class EventHandler {
                 outService.sendStartMenu(senderId);
             }
 
-            if (of(PayloadType.CONTACT.toString()).equals(payload)) {
+            if (of(PayloadType.CURRENCY.toString()).equals(payload)) {
                 outService.sendCurrencyMenu(senderId);
             }
 

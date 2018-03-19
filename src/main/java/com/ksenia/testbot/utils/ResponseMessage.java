@@ -31,10 +31,10 @@ public class ResponseMessage {
                 MessagingType.RESPONSE, TextMessage.create(text));
     }
 
-    public static MessagePayload listButtons(String recipientId, String[] names, String text) {
+    public static MessagePayload listButtons(String recipientId, String[] names,PayloadType[] types,  String text) {
         final List<Button> buttons = new LinkedList<>();
-        for (String s : names) {
-            buttons.add(PostbackButton.create(s, s));
+        for (int i=0;i<names.length;i++) {
+            buttons.add(PostbackButton.create(names[i], types[i].toString()));
         }
         final ButtonTemplate buttonTemplate = ButtonTemplate.create(text, buttons);
 

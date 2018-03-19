@@ -3,7 +3,8 @@ package com.ksenia.testbot.service;
 import com.github.messenger4j.Messenger;
 import com.github.messenger4j.exception.MessengerApiException;
 import com.github.messenger4j.exception.MessengerIOException;
-import com.ksenia.testbot.enums.PayloadType;
+import com.ksenia.testbot.constants.Constans;
+import com.ksenia.testbot.constants.PayloadType;
 import com.ksenia.testbot.exceptions.GetCurrentCurrencyException;
 import com.ksenia.testbot.model.Currency;
 import com.ksenia.testbot.utils.CurrencyGetter;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ksenia.testbot.enums.PayloadType.*;
+import static com.ksenia.testbot.constants.PayloadType.*;
 
 @Service
 public class OutService {
@@ -47,7 +48,7 @@ public class OutService {
     }
 
     public void sendContact(String recipientId) throws MessengerApiException, MessengerIOException {
-        messenger.send(ResponseMessage.textMessage(recipientId, "Kiev city \n044 222 22 22"));
+        messenger.send(ResponseMessage.textMessage(recipientId, Constans.CONTACT_INFO));
 
     }
 

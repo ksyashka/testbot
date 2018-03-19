@@ -13,11 +13,10 @@ import com.github.messenger4j.send.MessagingType;
 import com.github.messenger4j.send.message.TemplateMessage;
 import com.github.messenger4j.send.message.TextMessage;
 import com.github.messenger4j.send.message.template.ButtonTemplate;
-import com.github.messenger4j.send.message.template.ListTemplate;
 import com.github.messenger4j.send.message.template.button.Button;
 import com.github.messenger4j.send.message.template.button.PostbackButton;
-import com.github.messenger4j.send.message.template.common.Element;
-import com.ksenia.testbot.enums.PayloadType;
+import com.ksenia.testbot.constants.Constans;
+import com.ksenia.testbot.constants.PayloadType;
 
 import java.util.*;
 
@@ -60,7 +59,7 @@ public class ResponseMessage {
     }
 
     public static MessengerSettings greetingtext(){
-        final Greeting greeting = Greeting.create("Hello :)", LocalizedGreeting.create(SupportedLocale.en_US,
+        final Greeting greeting = Greeting.create(Constans.GREETING_TEXT, LocalizedGreeting.create(SupportedLocale.en_US,
                 ""));
         return MessengerSettings.create(empty(), of(greeting), empty(),
                 empty(), empty(), empty(), empty());

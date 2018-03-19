@@ -6,10 +6,11 @@ import com.github.messenger4j.exception.MessengerIOException;
 import com.github.messenger4j.webhook.Event;
 import com.github.messenger4j.webhook.event.PostbackEvent;
 import com.github.messenger4j.webhook.event.TextMessageEvent;
-import com.ksenia.testbot.enums.PayloadType;
+import com.ksenia.testbot.constants.PayloadType;
 import com.ksenia.testbot.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -25,10 +26,7 @@ public class EventHandler {
     private HashMap<String, UserProfile> userProfiles;
 
     public EventHandler() {
-    }
-
-    public EventHandler(HashMap<String, UserProfile> userProfiles) {
-        this.userProfiles = userProfiles;
+        this.userProfiles = new HashMap<String, UserProfile>();
     }
 
     public void handle(Event event, Messenger messenger) throws MessengerApiException, MessengerIOException {

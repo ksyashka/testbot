@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 
 import static java.util.Optional.of;
 
@@ -28,6 +27,8 @@ public class WebhookController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebhookController.class);
     private Messenger messenger;
+
+    @Autowired
     private EventHandler eventHandler;
 
     @Autowired
@@ -35,11 +36,10 @@ public class WebhookController {
                       @Value("${messenger4j.appSecret}") final String appSecret,
                       @Value("${messenger4j.verifyToken}") final String verifyToken) {
         messenger = Messenger.create(pageAccessToken, appSecret, verifyToken);
-        eventHandler = new EventHandler(new HashMap<>());
     }
 
 
-    @RequestMapping(value = "/webhook", method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<String> verifyWebhook(@RequestParam("hub.mode") String mode,
                                                 @RequestParam("hub.verify_token") String verifyTokenInput,
                                                 @RequestParam("hub.challenge") String challenge) {
@@ -57,7 +57,7 @@ public class WebhookController {
     }
 
 
-    @RequestMapping(value = "/webhook", method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void verifyWebhook(@RequestBody String payload, @RequestHeader("X-Hub-Signature") final String signature) {
 

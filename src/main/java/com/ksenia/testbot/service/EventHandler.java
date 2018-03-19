@@ -1,4 +1,4 @@
-package com.ksenia.testbot.handler;
+package com.ksenia.testbot.service;
 
 import com.github.messenger4j.Messenger;
 import com.github.messenger4j.exception.MessengerApiException;
@@ -6,7 +6,7 @@ import com.github.messenger4j.exception.MessengerIOException;
 import com.github.messenger4j.webhook.Event;
 import com.github.messenger4j.webhook.event.PostbackEvent;
 import com.github.messenger4j.webhook.event.TextMessageEvent;
-import com.ksenia.testbot.service.OutService;
+import com.ksenia.testbot.enums.PayloadType;
 import com.ksenia.testbot.model.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,37 +50,37 @@ public class EventHandler {
                     senderId, timestamp, payload);
 
 
-            if (of("Registration").equals(payload)) {
+            if (of(PayloadType.REGISTRATION.toString()).equals(payload)) {
                 outService.sendText(senderId, "Please answer the following questions");
                 outService.sendText(senderId, "your name?");
                 userProfiles.get(senderId).setRegistrationMarker(1);
             }
 
-            if (of("Start").equals(payload)) {
+            if (of(PayloadType.START.toString()).equals(payload)) {
                 outService.sendStartMenu(senderId);
             }
-            if (of("Contact").equals(payload)) {
+            if (of(PayloadType.CONTACT.toString()).equals(payload)) {
                 outService.sendContact(senderId);
                 outService.sendStartMenu(senderId);
             }
 
-            if (of("Currency").equals(payload)) {
+            if (of(PayloadType.CONTACT.toString()).equals(payload)) {
                 outService.sendCurrencyMenu(senderId);
             }
 
-            if (of("EUR").equals(payload)) {
+            if (of(PayloadType.EUR.toString()).equals(payload)) {
                 String[] currency = {"EUR"};
                 outService.sendCurrency(senderId, currency);
                 outService.sendStartMenu(senderId);
 
             }
-            if (of("USD").equals(payload)) {
+            if (of(PayloadType.USD.toString()).equals(payload)) {
                 String[] currency = {"USD"};
                 outService.sendCurrency(senderId, currency);
                 outService.sendStartMenu(senderId);
             }
 
-            if (of("ALL").equals(payload)) {
+            if (of(PayloadType.ALL.toString()).equals(payload)) {
                 String[] currency = {"EUR", "USD"};
                 outService.sendCurrency(senderId, currency);
                 outService.sendStartMenu(senderId);

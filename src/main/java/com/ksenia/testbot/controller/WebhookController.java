@@ -6,7 +6,8 @@ import com.github.messenger4j.exception.MessengerApiException;
 import com.github.messenger4j.exception.MessengerIOException;
 import com.github.messenger4j.exception.MessengerVerificationException;
 
-import com.ksenia.testbot.handler.EventHandler;
+import com.ksenia.testbot.service.EventHandler;
+import com.ksenia.testbot.utils.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
 import static java.util.Optional.of;
@@ -70,5 +72,19 @@ public class WebhookController {
         } catch (Exception e) {
             LOGGER.warn("Processing of callback payload failed: {}", e.getMessage());
         }
+    }
+
+    @PostConstruct
+    public void setUp(){
+
+        try {
+            messenger.updateSettings(ResponseMessage.greetingtext());
+            messenger.updateSettings(ResponseMessage.startedButton());
+            messenger.updateSettings(ResponseMessage.persistentMenu());
+        } catch (MessengerApiException | MessengerIOException e) {
+            LOGGER.warn("Cannot update settings: {}", e.getMessage());
+        }
+
+
     }
 }

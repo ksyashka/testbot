@@ -2,6 +2,8 @@ package com.ksenia.testbot.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 
 public class Currency {
     @JsonProperty("r030")
@@ -23,6 +25,10 @@ public class Currency {
         this.rate = rate;
         this.currencyCode = cc;
         this.exchangeDate = exchangedate;
+    }
+
+    public Currency(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -63,5 +69,19 @@ public class Currency {
 
     public void setExchangeDate(String exchangeDate) {
         this.exchangeDate = exchangeDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Currency currency = (Currency) o;
+        return id == currency.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

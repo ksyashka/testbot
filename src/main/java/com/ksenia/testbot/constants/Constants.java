@@ -2,7 +2,7 @@ package com.ksenia.testbot.constants;
 
 public class Constants {
 
-    public static final String GREETING_TEXT = "Hello :)";
+    public static final String GREETING_TEXT = "Hello :) I'm here to help you :)";
     public static final String CONTACT_INFO = "Kiev city\n044 222 22 22";
     public static final String MENU_START = "Start from beginning";
     public static final String MENU_CONTACT = "Show contact information";

@@ -24,8 +24,6 @@ public class EventHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHandler.class);
     private HashMap<String, UserProfile> userProfiles = new HashMap<>();
     @Autowired
-    private MessengerProducer messenger;
-    @Autowired
     private OutService outService;
 
     public void handle(Event event) throws MessengerApiException, MessengerIOException {
@@ -69,7 +67,6 @@ public class EventHandler {
                     outService.sendStartMenu(senderId);
                     break;
                 case ALL:
-                    String[] currency = {"EUR", "USD"};
                     outService.sendCurrency(senderId, new String[]{"EUR", "USD"});
                     outService.sendStartMenu(senderId);
                     break;

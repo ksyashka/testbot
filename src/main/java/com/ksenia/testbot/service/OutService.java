@@ -51,8 +51,10 @@ public class OutService {
 
         List<Currency> currency = new ArrayList<>();
         try {
-            for (String s : type)
-                currency.add(CurrencyGetter.getCurrentCurrency(s));
+            for (String s : type) {
+                Currency currentCurrency = CurrencyGetter.getCurrentCurrency(s);
+                currency.add(currentCurrency);
+            }
         } catch (GetCurrentCurrencyException e) {
             LOGGER.warn(e.getMessage());
             messenger.messengerProducer().send(ResponseMessage.textMessage(recipientId, Constants.NOT_AVAILABLE));
@@ -60,7 +62,7 @@ public class OutService {
 
         StringBuilder message = new StringBuilder();
         for (Currency c : currency)
-            message.append(c.getCc()).append(" = ").append(c.getRate()).append("\n");
+            message.append(c.getCurrencyCode()).append(" = ").append(c.getRate()).append("\n");
 
         messenger.messengerProducer().send(ResponseMessage.textMessage(recipientId, message.toString()));
     }

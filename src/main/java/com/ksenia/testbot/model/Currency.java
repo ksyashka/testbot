@@ -1,43 +1,44 @@
 package com.ksenia.testbot.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+
 
 public class Currency {
-    @JsonProperty(value = "r030")
-    private int r030;
-    private String txt;
+    @JsonProperty("r030")
+    private int id;
+    @JsonProperty("txt")
+    private String currencyName;
     private double rate;
-    private String cc;
-    private String exchangedate;
+    @JsonProperty("cc")
+    private String currencyCode;
+    @JsonProperty("exchangedate")
+    private String exchangeDate;
 
     public Currency() {
     }
 
     public Currency(int r030, String txt, double rate, String cc, String exchangedate) {
-        this.r030 = r030;
-        this.txt = txt;
+        this.id = r030;
+        this.currencyName = txt;
         this.rate = rate;
-        this.cc = cc;
-        this.exchangedate = exchangedate;
+        this.currencyCode = cc;
+        this.exchangeDate = exchangedate;
     }
 
-    @JsonGetter("r030")
-    public int getR030() {
-        return r030;
-    }
-    @JsonSetter("r030")
-    public void setR030(int r030) {
-        this.r030 = r030;
+    public int getId() {
+        return id;
     }
 
-    public String getTxt() {
-        return txt;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTxt(String txt) {
-        this.txt = txt;
+    public String getCurrencyName() {
+        return currencyName;
+    }
+
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
     }
 
     public double getRate() {
@@ -48,19 +49,19 @@ public class Currency {
         this.rate = rate;
     }
 
-    public String getCc() {
-        return cc;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setCc(String cc) {
-        this.cc = cc;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
-    public String getExchangedate() {
-        return exchangedate;
+    public String getExchangeDate() {
+        return exchangeDate;
     }
 
-    public void setExchangedate(String exchangedate) {
-        this.exchangedate = exchangedate;
+    public void setExchangeDate(String exchangeDate) {
+        this.exchangeDate = exchangeDate;
     }
 }

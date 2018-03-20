@@ -1,9 +1,8 @@
 package com.ksenia.testbot.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ksenia.testbot.model.Currency;
 import com.ksenia.testbot.exceptions.GetCurrentCurrencyException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.net.URL;
 

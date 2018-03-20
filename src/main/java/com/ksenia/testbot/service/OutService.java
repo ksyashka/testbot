@@ -55,16 +55,17 @@ public class OutService {
                 Currency currentCurrency = CurrencyGetter.getCurrentCurrency(s);
                 currency.add(currentCurrency);
             }
+                StringBuilder message = new StringBuilder();
+                for (Currency c : currency)
+                    message.append(c.getCurrencyCode()).append(" = ").append(c.getRate()).append("\n");
+
+                messenger.messengerProducer().send(ResponseMessage.textMessage(recipientId, message.toString()));
         } catch (GetCurrentCurrencyException e) {
             LOGGER.warn(e.getMessage());
             messenger.messengerProducer().send(ResponseMessage.textMessage(recipientId, Constants.NOT_AVAILABLE));
         }
 
-        StringBuilder message = new StringBuilder();
-        for (Currency c : currency)
-            message.append(c.getCurrencyCode()).append(" = ").append(c.getRate()).append("\n");
 
-        messenger.messengerProducer().send(ResponseMessage.textMessage(recipientId, message.toString()));
     }
 
     public void sendText(String recipientId, String text) throws MessengerApiException, MessengerIOException {

@@ -18,6 +18,7 @@ public class CurrencyGetter {
         } catch (Exception e) {
             throw new GetCurrentCurrencyException(e.getMessage());
         }
+
     }
 
 }

@@ -1,11 +1,11 @@
 package com.ksenia.testbot.controller;
 
 
+import com.github.messenger4j.Messenger;
 import com.github.messenger4j.exception.MessengerApiException;
 import com.github.messenger4j.exception.MessengerIOException;
 import com.github.messenger4j.exception.MessengerVerificationException;
-import com.ksenia.testbot.service.EventHandler;
-import com.ksenia.testbot.service.MessengerProducer;
+import com.ksenia.testbot.service.EventHandlerImpl;
 import com.ksenia.testbot.utils.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +23,12 @@ import static java.util.Optional.of;
 public class WebhookController {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebhookController.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
-    private MessengerProducer messenger;
+    private Messenger messenger;
     @Autowired
-    private EventHandler eventHandler;
+    private EventHandlerImpl eventHandler;
 
 
     @GetMapping
@@ -35,12 +36,12 @@ public class WebhookController {
                                                 @RequestParam("hub.verify_token") String verifyTokenInput,
                                                 @RequestParam("hub.challenge") String challenge) {
 
-        LOGGER.debug("Received Webhook verification request - mode: {} | verifyToken: {} | challenge: {}", mode, verifyTokenInput, challenge);
+        logger.debug("Received Webhook verification request - mode: {} | verifyToken: {} | challenge: {}", mode, verifyTokenInput, challenge);
 
         try {
-            messenger.messengerProducer().verifyWebhook(mode, verifyTokenInput);
+            messenger.verifyWebhook(mode, verifyTokenInput);
         } catch (MessengerVerificationException e) {
-            LOGGER.warn("Webhook verification failed: {}", e.getMessage());
+            logger.warn("Webhook verification failed: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         }
@@ -50,28 +51,28 @@ public class WebhookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void verifyWebhook(@RequestBody String payload, @RequestHeader("X-Hub-Signature") final String signature) {
+    public void getWebhookEvent(@RequestBody String payload, @RequestHeader(value = "X-Hub-Signature", required = false) final String signature) {
         try {
-            messenger.messengerProducer().onReceiveEvents(payload, of(signature), event -> {
+            messenger.onReceiveEvents(payload, of(signature), event -> {
                 try {
                     eventHandler.handle(event);
                 } catch (MessengerApiException | MessengerIOException e) {
-                    LOGGER.warn("Processing of callback payload failed: {}", e.getMessage());
+                    logger.warn("Processing of callback payload failed: {}", e.getMessage());
                 }
             });
         } catch (Exception e) {
-            LOGGER.warn("Processing of callback payload failed: {}", e.getMessage());
+            logger.warn("Processing of callback payload failed: {}", e.getMessage());
         }
     }
 
     @PostConstruct
     public void setUp(){
         try {
-            messenger.messengerProducer().updateSettings(ResponseMessage.greetingText());
-            messenger.messengerProducer().updateSettings(ResponseMessage.startedButton());
-            messenger.messengerProducer().updateSettings(ResponseMessage.persistentMenu());
+            messenger.updateSettings(ResponseMessage.greetingText());
+            messenger.updateSettings(ResponseMessage.startedButton());
+            messenger.updateSettings(ResponseMessage.persistentMenu());
         } catch (MessengerApiException | MessengerIOException e) {
-            LOGGER.warn("Cannot update settings: {}", e.getMessage());
+            logger.warn("Cannot update settings: {}", e.getMessage());
         }
 
 

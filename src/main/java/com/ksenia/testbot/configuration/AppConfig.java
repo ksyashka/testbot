@@ -1,12 +1,12 @@
-package com.ksenia.testbot.service;
+package com.ksenia.testbot.configuration;
 
 import com.github.messenger4j.Messenger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-public class MessengerProducer {
+@Configuration
+public class AppConfig {
     @Value("${messenger4j.pageAccessToken}")
     private String pageAccessToken;
     @Value("${messenger4j.appSecret}")
@@ -14,8 +14,7 @@ public class MessengerProducer {
     @Value("${messenger4j.verifyToken}")
     private String verifyToken;
 
-
-    @Autowired
+    @Bean
     public Messenger messengerProducer() {
         return Messenger.create(pageAccessToken, appSecret, verifyToken);
     }
